@@ -24,7 +24,7 @@ The goals / steps of this project are the following:
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+### Here I will consider the rubric points individually and describe how I addressed each point in my implementation in [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb).  
 
 ---
 
@@ -32,7 +32,7 @@ The goals / steps of this project are the following:
 
 The code for this step is contained in the IPython notebook located in  [Camera_Calibration](Camera_Calibration.ipynb).
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image using cv2.findChessboardCorners.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
+I assume the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image. `objpoints` will contain the object points.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection in a test image using cv2.findChessboardCorners.  
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
@@ -40,75 +40,54 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Pipeline (single images)
 
-#### 1. Provide an example of a distortion-corrected image.
+#### 1. Calibrate and Undistort Images
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
+As stated above, the undistortion is done in [Camera_Calibration](Camera_Calibration.ipynb). Here is an example of the result by applying it to the test images using the saved matrix:
 ![alt text][image1]
 
-#### 2. 
+#### 2. Color and Gradient Thresholds
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at cell 8 and 9 in `another_file.py`).  Here's an example of my output for this step.
 
 ![alt text][image3]
 
-#### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+#### 3. Perspective Transform
+I hardcoded the perspective transform and calculated the transformation matrix in cell 5 of the notebook [Perspective_Transform](Perspective_Transform.ipynb)
+The code for my perspective transform on the test images includes a function called `warp()`, which appears in lines 1 through 8 in the notebook [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb)
 
-The code for my perspective transform includes a function called `warp()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
-
-This resulted in the following source and destination points:
-
-| Source        | Destination   | 
-|:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
-
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image. Here is an example.
 
 ![alt text][image2]
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+#### 4. Polynomial fit of the left and right lines
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+Using the sliding window technique, I find the points in each window for the left and right lines separately. I then fitted a line through the points using numpy.polyfit(). Here is an example on the test images:
 
 ![alt text][image6]
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Curvature Radius and Car Poistion Calculation 
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in cells 18 and 19 in my code in [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb). I first calculated the pixel radius and then convert it to real life distance based on `ym_per_pix`, which is the meter per pixel value.
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+To find the position of the vehicle with respect to the lane, I compared its position, which is assumed to be the middle of the frame to the midpoint between fitted lines.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+#### 6. Lane Projection
+
+I plotted the lane back down onto the road image.
+
+I implemented this step in cells 20 and 21 in the notebook [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb).  Here is an example of my result on a test image:
 
 ![alt text][image4]
 
 ---
 
-### Pipeline (video)
+### Video Output
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+My approach didn't do well with the challenge video. It could be because of the road having multiple shades on the left. The right white line seems fine. Other gradient approaches could be used to improve line detection.
