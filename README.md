@@ -32,7 +32,7 @@ The goals / steps of this project are the following:
 
 The code for this step is contained in the IPython notebook located in  [Camera_Calibration](Camera_Calibration.ipynb).
 
-I assume the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image. `objpoints` will contain the object points.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection in a test image using cv2.findChessboardCorners.  
+I assume the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image. `objpoints` will contain the object points.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection in a test image using `cv2.findChessboardCorners`.  
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
@@ -47,7 +47,7 @@ As stated above, the undistortion is done in [Camera_Calibration](Camera_Calibra
 
 #### 2. Color and Gradient Thresholds
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at cell 8 and 9 in `another_file.py`).  Here's an example of my output for this step.
+I used a combination of color and gradient thresholds to generate a binary image in [Color_Gradient](Color_Gradient.ipynb). I defined a function `color_gradient()` in [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb) as part of the pipeline. Here is an example of my output for this step.
 
 ![alt text][image3]
 
@@ -65,7 +65,7 @@ Using the sliding window technique, I find the points in each window for the lef
 
 ![alt text][image6]
 
-#### 5. Curvature Radius and Car Poistion Calculation 
+#### 5. Curvature Radius and Car Position Calculation 
 
 I did this in cells 18 and 19 in my code in [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb). I first calculated the pixel radius and then convert it to real life distance based on `ym_per_pix`, which is the meter per pixel value.
 
