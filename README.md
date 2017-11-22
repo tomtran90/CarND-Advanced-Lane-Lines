@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 [image3]: ./output_images/color_gradient.png "Binary Example"
 [image4]: ./output_images/draw.png "Projected path"
 [image5]: ./output_images/chessboard.png "Chessboard"
-[image6]: ./examples/example_output.jpg "Output"
+[image6]: ./output_images/fit.png "Fit Lines"
 [video1]: ./project_video_output.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -85,7 +85,7 @@ I verified that my perspective transform was working as expected by drawing the 
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
 
-![alt text][image5]
+![alt text][image6]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
@@ -95,7 +95,7 @@ I did this in lines # through # in my code in `my_other_file.py`
 
 I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+![alt text][image4]
 
 ---
 
