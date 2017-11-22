@@ -52,7 +52,7 @@ I used a combination of color and gradient thresholds to generate a binary image
 ![alt text][image3]
 
 #### 3. Perspective Transform
-I hardcoded the perspective transform and calculated the transformation matrix in cell 5 of the notebook [Perspective_Transform](Perspective_Transform.ipynb)
+I hardcoded the perspective transform and calculated the transformation matrix in cell 5 of the notebook [Perspective_Transform](Perspective_Transform.ipynb).
 The code for my perspective transform on the test images includes a function called `warp()`, which appears in lines 1 through 8 in the notebook [Advanced_Lane_Lines](Advanced_Lane_Lines.ipynb)
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image. Here is an example.
