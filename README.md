@@ -83,8 +83,7 @@ I implemented this step in cells 20 and 21 in the notebook [Advanced_Lane_Lines]
 
 ### Video Output
 
-
-Here's a [link to my video result](./project_video_output.mp4)
+I applied this process to the project video. Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
